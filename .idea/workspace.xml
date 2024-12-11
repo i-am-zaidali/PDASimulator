@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="544e2bb1-d1bc-4f22-ac2f-da764622c777" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PDASimulator.iml" afterDir="false" />
+    <list default="true" id="544e2bb1-d1bc-4f22-ac2f-da764622c777" name="Changes" comment="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PDASimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +24,25 @@
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "i-am-zaidali"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/i-am-zaidali/PDASimulator&quot;,
+    &quot;accountId&quot;: &quot;9e9fc6b3-8c23-4274-8d00-61642ee6bad7&quot;
+  }
+}</component>
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
@@ -92,11 +101,37 @@
       <workItem from="1733734401861" duration="338000" />
       <workItem from="1733736831206" duration="625000" />
       <workItem from="1733739670838" duration="157000" />
+      <workItem from="1733850922027" duration="928000" />
+      <workItem from="1733897858838" duration="909000" />
     </task>
+    <task id="LOCAL-00001" summary="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}">
+      <option name="closed" value="true" />
+      <created>1733851524601</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1733851524601</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}" />
+    <option name="LAST_COMMIT_MESSAGE" value="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

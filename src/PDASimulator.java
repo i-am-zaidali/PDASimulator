@@ -448,7 +448,9 @@ public class PDASimulator extends javax.swing.JDialog {
     private void speedSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_speedSliderStateChanged
         int speed = speedSlider.getValue();
         jLabel1.setText(String.format("Speed Selector ( %.2gx )", speed / 100.0));
-        simulationTask.setDelay((int) (1000 / (speed / 100f)));
+        if (this.simulationTask != null) {
+            simulationTask.setDelay((int) (1000 / (speed / 100f)));
+        }
     }//GEN-LAST:event_speedSliderStateChanged
 
     private void CheckStringButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckStringButtonActionPerformed
