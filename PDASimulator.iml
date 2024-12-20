@@ -7,5 +7,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="javatuples" level="project" />
+    <orderEntry type="library" name="formdev.flatlaf" level="project" />
+    <orderEntry type="library" name="formdev.flatlaf.extras" level="project" />
+    <orderEntry type="library" name="miglayout.core" level="project" />
+    <orderEntry type="library" name="miglayout.swing" level="project" />
+    <orderEntry type="library" name="formdev.flatlaf.fonts.roboto" level="project" />
+    <orderEntry type="library" name="graphper.graph.support" level="project" />
+    <orderEntry type="library" name="fasterxml.jackson.core.annotations" level="project" />
+    <orderEntry type="library" name="fasterxml.jackson.core" level="project" />
+    <orderEntry type="library" name="fasterxml.jackson.core.databind" level="project" />
+    <orderEntry type="library" name="fasterxml.jackson.dataformat.yaml" level="project" />
   </component>
 </module>

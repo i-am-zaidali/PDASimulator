@@ -3,20 +3,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
-import java.util.HashSet;
+import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zimp
  */
-public class PDASimulator extends javax.swing.JDialog {
+public class PDASimulator extends javax.swing.JFrame {
+
+    DecidableTuringMachine turingMachine;
+
+    PDASetup setupDialog;
 
     int currentStep = 0; // Current step of the simulation
+    String currentState;
     boolean stopSimulation = false; // Flag to stop the simulation
     Timer simulationTask = null;
 
@@ -24,37 +40,48 @@ public class PDASimulator extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CheckStringButton;
     private javax.swing.JPanel LabelPanel;
+    private javax.swing.JPanel MainContentPanel;
+    private javax.swing.JPanel StackPanel;
+    private javax.swing.JPanel bottomPanelWithButtonAndStatus;
     private javax.swing.JSlider characterSlider;
+    private javax.swing.JPanel diagramPanel;
+    private javax.swing.JButton editPDAButton;
+    private javax.swing.JButton exportPDAButton;
+    private javax.swing.JButton importPDAButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel languageDescriptionLabel;
+    private javax.swing.JLabel languageSetBuilderFormLabel;
     private javax.swing.JTable operationsTable;
     private javax.swing.JButton resetButton;
     private javax.swing.JSlider speedSlider;
     private javax.swing.JTable stackTable;
+    private javax.swing.JTable statesTable;
     private javax.swing.JLabel statusLabel;
     private javax.swing.JButton stopButton;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel titleLabelPanel;
     private javax.swing.JTextField userStringInput;
     // End of variables declaration//GEN-END:variables
 
     /**
      * Creates new form PDASimulator
      */
-    public PDASimulator(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public PDASimulator() {
         initComponents();
+        this.turingMachine = new DecidableTuringMachine();
+        this.setupDialog = new PDASetup(this, true, turingMachine);
         userStringInput.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -82,16 +109,17 @@ public class PDASimulator extends javax.swing.JDialog {
                 } else {
                     statusLabel.setText("The current string is **UNPROCESSED**");
                     var lastChar = text.substring(text.length() - 1);
-                    var allChars = new HashSet<>(text.chars().mapToObj(c -> (char) c).toList());
-                    var allowedChars = List.of('a', 'b', 'c');
-                    if (!allowedChars.contains(lastChar.toCharArray()[0])) {
-                        JOptionPane.showMessageDialog(PDASimulator.this, "Only characters a, b, and c are allowed", "Invalid Character; \"" + lastChar + "\"", JOptionPane.ERROR_MESSAGE);
+                    if (!turingMachine.inputAlphabet.contains(lastChar)) {
+                        JOptionPane.showMessageDialog(
+                                PDASimulator.this,
+                                "Only characters " +
+                                        humanize_list(turingMachine.inputAlphabet.toArray()) +
+                                        " are allowed",
+                                "Invalid Character; \"" +
+                                        lastChar + "\"",
+                                JOptionPane.ERROR_MESSAGE
+                        );
                         SwingUtilities.invokeLater(() -> userStringInput.setText(text.substring(0, text.length() - 1)));
-                        return;
-                    }
-                    if (allChars.containsAll(allowedChars) && !text.matches("a+b+c+")) {
-                        JOptionPane.showMessageDialog(PDASimulator.this, "The character 'b' must be followed by 'c'", "Invalid Character; \"" + lastChar + "\"", JOptionPane.ERROR_MESSAGE);
-                        SwingUtilities.invokeLater(() -> userStringInput.setText(""));
                         return;
                     }
                     speedSlider.setEnabled(true);
@@ -103,40 +131,50 @@ public class PDASimulator extends javax.swing.JDialog {
         });
     }
 
+    public static <T> String humanize_list(T[] arr) {
+        if (arr.length == 0) {
+            return "";
+        } else if (arr.length == 1) {
+            return arr[0].toString();
+        } else if (arr.length == 2) {
+            return arr[0].toString() + " and " + arr[1].toString();
+        } else {
+            var sb = new StringBuilder();
+            for (int i = 0; i < arr.length - 1; i++) {
+                sb.append(arr[i].toString()).append(", ");
+            }
+            sb.append(" and ").append(arr[arr.length - 1]);
+            return sb.toString();
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | IllegalAccessException |
-                 InstantiationException |
-                 UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PDASimulator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+        FlatRobotoFont.install();
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        FlatMacLightLaf.setup();
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PDASimulator dialog = new PDASimulator(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                PDASimulator frame = new PDASimulator();
+                frame.setVisible(true);
+//                var dialog = frame.setupDialog;
+//                dialog.setVisible(true);
+//                dialog.setLocationRelativeTo(frame);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosed(java.awt.event.WindowEvent e) {
+//                        if (dialog.stateManager.allowNext(false) && dialog.alphabetManager.allowNext(false) && dialog.transitionManager.allowNext(false)) {
+//                            frame.currentState = frame.turingMachine.startState;
+//                            frame.editPDAButton.setEnabled(true);
+//                            return;
+//                        }
+//                        frame.dispose();
+//                    }
+//                });
             }
         });
     }
@@ -151,62 +189,50 @@ public class PDASimulator extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        statusLabel = new javax.swing.JLabel();
+        bottomPanelWithButtonAndStatus = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         resetButton = new javax.swing.JButton();
         CheckStringButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        editPDAButton = new javax.swing.JButton();
+        importPDAButton = new javax.swing.JButton();
+        exportPDAButton = new javax.swing.JButton();
+        statusLabel = new javax.swing.JLabel();
+        StackPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         stackTable = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         operationsTable = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
+        MainContentPanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         speedSlider = new javax.swing.JSlider();
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         LabelPanel = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        languageDescriptionLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        languageSetBuilderFormLabel = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        userStringInput = new javax.swing.JTextField();
         characterSlider = new javax.swing.JSlider();
+        jPanel9 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        statesTable = new javax.swing.JTable();
+        userStringInput = new javax.swing.JTextField();
+        diagramPanel = new javax.swing.JPanel();
+        titleLabelPanel = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.BorderLayout(10, 0));
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        statusLabel.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
-        statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        statusLabel.setText("The current string is **EMPTY**");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(statusLabel)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+        bottomPanelWithButtonAndStatus.setLayout(new java.awt.BorderLayout());
 
         java.awt.GridBagLayout jPanel8Layout = new java.awt.GridBagLayout();
         jPanel8Layout.columnWidths = new int[]{0, 50, 0, 50, 0, 50, 0, 50, 0};
-        jPanel8Layout.rowHeights = new int[]{0};
+        jPanel8Layout.rowHeights = new int[]{0, 34, 0, 34, 0};
         jPanel8.setLayout(jPanel8Layout);
 
         resetButton.setText("Reset Simulation");
@@ -218,9 +244,10 @@ public class PDASimulator extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 24;
         gridBagConstraints.ipady = 24;
+        gridBagConstraints.insets = new java.awt.Insets(0, 24, 0, 0);
         jPanel8.add(resetButton, gridBagConstraints);
 
         CheckStringButton.setFont(new java.awt.Font("Noto Sans", 1, 16)); // NOI18N
@@ -233,7 +260,7 @@ public class PDASimulator extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.ipadx = 24;
         gridBagConstraints.ipady = 24;
@@ -248,15 +275,78 @@ public class PDASimulator extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 24;
         gridBagConstraints.ipady = 24;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 24);
         jPanel8.add(stopButton, gridBagConstraints);
 
-        jPanel1.add(jPanel8, java.awt.BorderLayout.CENTER);
+        editPDAButton.setText("Setup PDA");
+        editPDAButton.setPreferredSize(new java.awt.Dimension(141, 24));
+        editPDAButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editPDAButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 24;
+        gridBagConstraints.ipady = 24;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 13, 0);
+        jPanel8.add(editPDAButton, gridBagConstraints);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
+        importPDAButton.setText("Import PDA");
+        importPDAButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importPDAButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 24;
+        gridBagConstraints.ipady = 24;
+        gridBagConstraints.insets = new java.awt.Insets(0, 24, 13, 0);
+        jPanel8.add(importPDAButton, gridBagConstraints);
+
+        exportPDAButton.setText("Export PDA");
+        exportPDAButton.setEnabled(false);
+        exportPDAButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportPDAButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 24;
+        gridBagConstraints.ipady = 24;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 13, 24);
+        jPanel8.add(exportPDAButton, gridBagConstraints);
+
+        statusLabel.setFont(new java.awt.Font("Noto Sans", 3, 20)); // NOI18N
+        statusLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statusLabel.setText("The current string is **EMPTY**");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 9;
+        jPanel8.add(statusLabel, gridBagConstraints);
+
+        bottomPanelWithButtonAndStatus.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(bottomPanelWithButtonAndStatus, java.awt.BorderLayout.PAGE_END);
+
+        StackPanel.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 402));
 
         stackTable.setFont(new java.awt.Font("DejaVu Sans", 1, 20)); // NOI18N
         stackTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -285,6 +375,7 @@ public class PDASimulator extends javax.swing.JDialog {
                 return canEdit[columnIndex];
             }
         });
+        stackTable.setEnabled(false);
         stackTable.setFocusable(false);
         stackTable.setRowSelectionAllowed(false);
         stackTable.getTableHeader().setReorderingAllowed(false);
@@ -294,6 +385,17 @@ public class PDASimulator extends javax.swing.JDialog {
         if (stackTable.getColumnModel().getColumnCount() > 0) {
             stackTable.getColumnModel().getColumn(0).setResizable(false);
         }
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(85, 4, 101, 4);
+        jPanel1.add(jScrollPane2, gridBagConstraints);
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 402));
 
         operationsTable.setFont(new java.awt.Font("DejaVu Sans", 1, 20)); // NOI18N
         operationsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -323,6 +425,7 @@ public class PDASimulator extends javax.swing.JDialog {
             }
         });
         operationsTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        operationsTable.setEnabled(false);
         operationsTable.setFocusable(false);
         operationsTable.setRequestFocusEnabled(false);
         operationsTable.setRowSelectionAllowed(false);
@@ -333,33 +436,26 @@ public class PDASimulator extends javax.swing.JDialog {
         jScrollPane1.setViewportView(operationsTable);
         if (operationsTable.getColumnModel().getColumnCount() > 0) {
             operationsTable.getColumnModel().getColumn(0).setResizable(false);
+            operationsTable.getColumnModel().getColumn(0).setPreferredWidth(50);
             operationsTable.getColumnModel().getColumn(1).setResizable(false);
+            operationsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
         }
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane2)
-                                        .addComponent(jScrollPane1))
-                                .addContainerGap())
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(85, 4, 101, 4);
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_START);
+        StackPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(StackPanel, java.awt.BorderLayout.LINE_START);
+
+        MainContentPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -395,40 +491,29 @@ public class PDASimulator extends javax.swing.JDialog {
         jLabel1.setText("Speed Selector ( 1.0x )");
         jPanel4.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        jPanel3.add(jPanel4, java.awt.BorderLayout.PAGE_END);
+        MainContentPanel.add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         LabelPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel5.setFont(new java.awt.Font("DejaVu Sans", 1, 12)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Languge = {a^i.b^j.c^k | i,j,k > 0 and k = i + j}");
-        LabelPanel.add(jLabel5, java.awt.BorderLayout.CENTER);
-
-        jLabel6.setFont(new java.awt.Font("Noto Sans", 3, 30)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("PDA SIMULATOR");
-        LabelPanel.add(jLabel6, java.awt.BorderLayout.PAGE_START);
+        languageDescriptionLabel.setFont(new java.awt.Font("DejaVu Sans", 2, 14)); // NOI18N
+        languageDescriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        LabelPanel.add(languageDescriptionLabel, java.awt.BorderLayout.CENTER);
 
         jSeparator1.setPreferredSize(new java.awt.Dimension(0, 15));
         LabelPanel.add(jSeparator1, java.awt.BorderLayout.PAGE_END);
 
+        languageSetBuilderFormLabel.setFont(new java.awt.Font("Liberation Sans", 1, 16)); // NOI18N
+        LabelPanel.add(languageSetBuilderFormLabel, java.awt.BorderLayout.PAGE_START);
+
         jPanel5.add(LabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        jPanel7.setLayout(new java.awt.BorderLayout());
+        jPanel7.setLayout(new java.awt.BorderLayout(10, 0));
 
         jLabel3.setFont(new java.awt.Font("Monospaced", 2, 18)); // NOI18N
         jLabel3.setText("User input string to verify:");
         jPanel7.add(jLabel3, java.awt.BorderLayout.PAGE_START);
-
-        userStringInput.setFont(new java.awt.Font("DejaVu Sans Mono", 0, 19)); // NOI18N
-        userStringInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userStringInputActionPerformed(evt);
-            }
-        });
-        jPanel7.add(userStringInput, java.awt.BorderLayout.CENTER);
 
         characterSlider.setPaintTrack(false);
         characterSlider.setEnabled(false);
@@ -436,11 +521,101 @@ public class PDASimulator extends javax.swing.JDialog {
         characterSlider.setRequestFocusEnabled(false);
         jPanel7.add(characterSlider, java.awt.BorderLayout.PAGE_END);
 
+        jPanel9.setLayout(new java.awt.GridBagLayout());
+
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(150, 402));
+
+        statesTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                        {null},
+                        {null},
+                        {null},
+                        {null}
+                },
+                new String[]{
+                        "States"
+                }
+        ) {
+            final Class[] types = new Class[]{
+                    java.lang.String.class
+            };
+            final boolean[] canEdit = new boolean[]{
+                    false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+        statesTable.setEnabled(false);
+        jScrollPane3.setViewportView(statesTable);
+        if (statesTable.getColumnModel().getColumnCount() > 0) {
+            statesTable.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel9.add(jScrollPane3, gridBagConstraints);
+
+        userStringInput.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        userStringInput.setEnabled(false);
+        userStringInput.setPreferredSize(new java.awt.Dimension(350, 28));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel9.add(userStringInput, gridBagConstraints);
+
+        javax.swing.GroupLayout diagramPanelLayout = new javax.swing.GroupLayout(diagramPanel);
+        diagramPanel.setLayout(diagramPanelLayout);
+        diagramPanelLayout.setHorizontalGroup(
+                diagramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        diagramPanelLayout.setVerticalGroup(
+                diagramPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel9.add(diagramPanel, gridBagConstraints);
+
+        jPanel7.add(jPanel9, java.awt.BorderLayout.CENTER);
+
         jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
-        jPanel3.add(jPanel5, java.awt.BorderLayout.CENTER);
+        MainContentPanel.add(jPanel5, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
+        getContentPane().add(MainContentPanel, java.awt.BorderLayout.CENTER);
+
+        titleLabelPanel.setLayout(new java.awt.BorderLayout());
+
+        titleLabel.setFont(new java.awt.Font("Noto Sans", 3, 30)); // NOI18N
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setText("PDA SIMULATOR");
+        titleLabelPanel.add(titleLabel, java.awt.BorderLayout.PAGE_START);
+        titleLabelPanel.add(jSeparator2, java.awt.BorderLayout.PAGE_END);
+
+        getContentPane().add(titleLabelPanel, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -454,18 +629,10 @@ public class PDASimulator extends javax.swing.JDialog {
     }//GEN-LAST:event_speedSliderStateChanged
 
     private void CheckStringButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckStringButtonActionPerformed
-        if (!userStringInput.getText().matches("a+b+c+")) {
-            JOptionPane.showMessageDialog(this, "The string to check must be in the form `{a^i b^j c^k | i,j,k > 0}`", "Invalid Character", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         userStringInput.setEnabled(false);
         CheckStringButton.setEnabled(false);
         startSimulation();
     }//GEN-LAST:event_CheckStringButtonActionPerformed
-
-    private void userStringInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userStringInputActionPerformed
-        CheckStringButtonActionPerformed(evt);
-    }//GEN-LAST:event_userStringInputActionPerformed
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
         userStringInput.setEnabled(true);
@@ -479,6 +646,7 @@ public class PDASimulator extends javax.swing.JDialog {
         var opModel = (DefaultTableModel) operationsTable.getModel();
         stackModel.setRowCount(0);
         opModel.setRowCount(0);
+        statesTable.clearSelection();
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
@@ -492,59 +660,179 @@ public class PDASimulator extends javax.swing.JDialog {
         resetButton.setEnabled(true);
     }//GEN-LAST:event_stopButtonActionPerformed
 
+    private void editPDAButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPDAButtonActionPerformed
+        editPDAButton.setEnabled(false);
+        importPDAButton.setEnabled(false);
+        exportPDAButton.setEnabled(false);
+        setupDialog.turingMachine = turingMachine;
+        setupDialog.refreshState();
+        setupDialog.setVisible(true);
+        setupDialog.setLocationRelativeTo(this);
+        editPDAButton.setEnabled(true);
+        importPDAButton.setEnabled(true);
+        exportPDAButton.setEnabled(true);
+        enableSimulator();
+    }//GEN-LAST:event_editPDAButtonActionPerformed
+
+    private void importPDAButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importPDAButtonActionPerformed
+        var fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setDialogTitle("Select a PDA file (.JSON, .YAML, .YML)");
+        var restrict = new FileNameExtensionFilter("Only .json and .yaml files", "json", "yaml", "yml");
+        fileChooser.addChoosableFileFilter(restrict);
+        var r = fileChooser.showOpenDialog(this);
+        if (r == JFileChooser.APPROVE_OPTION) {
+            var ext = fileChooser.getSelectedFile().getName().split("\\.")[1];
+            ObjectMapper om;
+            switch (ext) {
+                case "json":
+                    om = new ObjectMapper();
+                    break;
+                case "yaml":
+                case "yml":
+                    om = new ObjectMapper(new YAMLFactory());
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Invalid file format", "Invalid file", JOptionPane.ERROR_MESSAGE);
+                    return;
+            }
+            try {
+                var tm = om.readValue(fileChooser.getSelectedFile(), DecidableTuringMachine.class);
+                this.turingMachine.updateFrom(tm);
+                enableSimulator();
+            } catch (DatabindException e) {
+                JOptionPane.showMessageDialog(this,
+                        """
+                                The PDA format in the given file is invalid.
+                                
+                                Please ensure the all the following keys are included in the YAML/JSON file:
+                                
+                                - states ( a list of the names of the states included in this PDA )
+                                
+                                - inputAlphabet ( a list of the input characters allowed in this PDA )
+                                
+                                - stackAlphabet ( a list of the stack characters allowed in this PDA )
+                                
+                                - transitions ( Key-Value pairs describing each \
+                                transition in the PDA where the key is the initial state \
+                                and the value is a list of key-value pairs \
+                                where the key is the go to state and the value is another key-value pair \
+                                with the following keys:
+                                
+                                    - consumeCharacter ( the input character to be read or epsilon (ε) )
+                                
+                                    - stackOp ( the stack operation to be performed: PUSH, POP, or NOP )
+                                
+                                    - stackOpArg ( the character to be pushed or popped from the stack, or null if stackOp is NOP )
+                                
+                                - startState
+                                
+                                - finalStates
+                                
+                                - languageDescription
+                                
+                                - languageSetBuilderForm
+                                """,
+                        "Invalid PDA Format",
+                        JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error reading file", "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_importPDAButtonActionPerformed
+
+    private void exportPDAButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPDAButtonActionPerformed
+        var fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        var r = fileChooser.showSaveDialog(this);
+        if (r == JFileChooser.APPROVE_OPTION) {
+            var filename = JOptionPane.showInputDialog(this, "Enter the file name (include .json or .yaml as the extension)", "Input file name", JOptionPane.QUESTION_MESSAGE);
+            if (!filename.contains(".")) {
+                JOptionPane.showMessageDialog(this, "Invalid file format (missing extension?)", "Invalid file", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            var ext = filename.split("\\.")[1];
+            ObjectMapper om;
+            switch (ext.toLowerCase()) {
+                case "json":
+                    om = new ObjectMapper();
+                    break;
+                case "yaml":
+                case "yml":
+                    om = new ObjectMapper(new YAMLFactory());
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Invalid file format", "Invalid file", JOptionPane.ERROR_MESSAGE);
+                    return;
+            }
+            try {
+                om.writeValue(new File(fileChooser.getSelectedFile().getAbsolutePath() + File.separator + filename), turingMachine);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error writing file", "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_exportPDAButtonActionPerformed
+
+    public void enableSimulator() {
+        userStringInput.setEnabled(true);
+        exportPDAButton.setEnabled(true);
+        editPDAButton.setText("Edit PDA");
+        languageDescriptionLabel.setText(turingMachine.languageDescription);
+        languageSetBuilderFormLabel.setText(turingMachine.languageSetBuilderForm);
+        var stackModel = (DefaultTableModel) stackTable.getModel();
+        var opModel = (DefaultTableModel) operationsTable.getModel();
+        stackModel.setRowCount(0);
+        opModel.setRowCount(0);
+        userStringInput.setText("");
+        resetCharacterSlider();
+        CheckStringButton.setEnabled(false);
+        stopButton.setEnabled(false);
+        resetButton.setEnabled(false);
+        statusLabel.setText("The current string is **EMPTY**");
+        ((DefaultTableModel) statesTable.getModel()).setRowCount(0);
+        turingMachine.states.forEach(s -> ((DefaultTableModel) statesTable.getModel()).addRow(new Object[]{s}));
+
+        // TODO: Generate an image of the PDA and put it in the diagramPanel
+        // Use a graphviz library to do so
+    }
+
     private void startSimulation() {
-        char[] characters = userStringInput.getText().toCharArray();
+        editPDAButton.setEnabled(false);
+        stopSimulation = false;
+        currentState = turingMachine.startState;
+        var characters = userStringInput.getText().split("");
         var stackModel = (DefaultTableModel) stackTable.getModel();
         var opModel = (DefaultTableModel) operationsTable.getModel();
         opModel.setRowCount(0);
         stackModel.setRowCount(0);
+        statesTable.setRowSelectionInterval(0, 0);
         setupCharacterSlider(characters);
-        stackModel.addRow(new Object[]{"$"});
-        opModel.addRow(new Object[]{"EMPTY", "PUSH $"});
         simulationTask = new Timer(1000, null);
         simulationTask.setRepeats(true);
         simulationTask.addActionListener(e -> {
             resetButton.setEnabled(false);
             stopButton.setEnabled(true);
-            int step = currentStep;
-            characterSlider.setValue(step);
-            var c = characters[step];
-            switch (Character.toLowerCase(c)) {
-                case 'a':
-                case 'b': {
-                    var stackRow = new Object[]{'a'};
-                    var opRow = new Object[]{c, "PUSH a"};
-                    opModel.addRow(opRow);
-                    stackModel.insertRow(0, stackRow);
-                    break;
-                }
-
-                case 'c': {
-                    var firstRow = stackModel.getValueAt(0, 0);
-                    if (!firstRow.equals('a')) {
-                        JOptionPane.showMessageDialog(PDASimulator.this, "The given string is not in the form `{a^i b^j c^k | i,j,k > 0}`\nThe amount of 'c's in the string is less than the sum of 'a's and 'b's.", "Invalid String", JOptionPane.ERROR_MESSAGE);
-                        resetCharacterSlider();
-                        stopSimulation = true;
-                        break;
-                    }
-                    stackModel.removeRow(0);
-                    var opRow = new Object[]{c, "POP a"};
-                    opModel.addRow(opRow);
-                }
-            }
+            simulate(characters);
             simulationTask.setDelay((int) (1000 / (speedSlider.getValue() / 100f)));
-            if (++currentStep >= characters.length || stopSimulation) {
-                if (stackModel.getRowCount() != 0 && stackModel.getValueAt(0, 0).equals('a')) {
-                    JOptionPane.showMessageDialog(PDASimulator.this, "The given string is not in the form `{a^i b^j c^k | i,j,k > 0}`\nThe amount of 'c's in the string is greater than the sum of 'a's and 'b's.", "Invalid String", JOptionPane.ERROR_MESSAGE);
-                    statusLabel.setText("The current string is **INVALID**");
-                } else {
-                    JOptionPane.showMessageDialog(PDASimulator.this, "The given string is in the form `{a^i b^j c^k | i,j,k > 0}`", "Valid String", JOptionPane.INFORMATION_MESSAGE);
+            if (stopSimulation) {
+                if (turingMachine.isFinalState(currentState) && currentStep >= characters.length) {
+                    JOptionPane.showMessageDialog(this, "The given input string was accepted by the specified PDA", "Valid String", JOptionPane.INFORMATION_MESSAGE);
                     statusLabel.setText("The current string is **VALID**");
+                } else {
+                    JOptionPane.showMessageDialog(this, "The given input string was not accepted by the specified PDA", "Invalid String", JOptionPane.ERROR_MESSAGE);
+                    statusLabel.setText("The current string is **INVALID**");
                 }
                 currentStep = 0;
+                currentState = turingMachine.startState;
                 stopSimulation = false;
                 stopButton.setEnabled(false);
                 resetButton.setEnabled(true);
+                editPDAButton.setEnabled(true);
                 simulationTask.stop();
                 return;
             }
@@ -554,20 +842,20 @@ public class PDASimulator extends javax.swing.JDialog {
         simulationTask.start();
     }
 
-    private void setupCharacterSlider(char[] characters) {
+    private void setupCharacterSlider(String[] characters) {
         characterSlider.setMaximum(characters.length - 1);
         characterSlider.setValue(0);
+        var hash = new Hashtable<Integer, javax.swing.JLabel>();
+        var i = 0;
+        for (var c : characters) {
+            hash.put(i++, new javax.swing.JLabel(c));
+        }
+        characterSlider.setLabelTable(hash);
         characterSlider.setPaintLabels(true);
         characterSlider.setPaintTicks(true);
         characterSlider.setPaintTrack(true);
         characterSlider.setSnapToTicks(true);
         characterSlider.setMajorTickSpacing(1);
-        var hash = new Hashtable<Integer, javax.swing.JLabel>();
-        var i = 0;
-        for (char c : characters) {
-            hash.put(i++, new javax.swing.JLabel(String.valueOf(c)));
-        }
-        characterSlider.setLabelTable(hash);
     }
 
     private void resetCharacterSlider() {
@@ -579,4 +867,76 @@ public class PDASimulator extends javax.swing.JDialog {
         characterSlider.setMajorTickSpacing(0);
         characterSlider.setLabelTable(new Hashtable<>());
     }
+
+    private void simulate(String[] input) {
+        var possibleTransitions = new HashMap<String, ArrayList<TransitionInfo>>();
+        var blankTransitions = new HashMap<String, ArrayList<TransitionInfo>>();
+        String topOfStack = stackTable.getRowCount() > 0 ? (String) stackTable.getValueAt(0, 0) : "";
+        var allTransitions = turingMachine.transitions.get(currentState);
+        if ((allTransitions == null || allTransitions.isEmpty())) {
+//            if (currentStep < input.length && !turingMachine.isFinalState(currentState)) {
+//                JOptionPane.showMessageDialog(PDASimulator.this, "The given input string was not accepted by the specified PDA`", "Invalid String", JOptionPane.ERROR_MESSAGE);
+//            }
+            stopSimulation = true;
+            return;
+        }
+        var currentChar = currentStep < input.length ? input[currentStep] : TransitionManagerPanel.BLANK_CHARACTER;
+        allTransitions.forEach(
+                (gotoState, possibilities) -> {
+                    var toAdd = possibilities.stream().filter(
+                            ti -> {
+                                if (ti.stackOp == StackOperation.POP && !topOfStack.equals(ti.stackOpArg)) {
+                                    return false;
+                                }
+                                if (ti.consumeCharacter.equals(TransitionManagerPanel.BLANK_CHARACTER)) {
+                                    var arr = blankTransitions.computeIfAbsent(gotoState, _ -> new ArrayList<>());
+                                    arr.add(ti);
+                                    return false;
+                                } else
+                                    return ti.consumeCharacter.equals(currentChar);
+                            }
+                    ).collect(Collectors.toCollection(ArrayList::new));
+                    if (!toAdd.isEmpty()) {
+                        possibleTransitions.put(gotoState, toAdd);
+                    }
+
+                }
+        );
+
+        String gotoState;
+        TransitionInfo ti;
+
+        if (possibleTransitions.isEmpty() && blankTransitions.isEmpty()) {
+            stopSimulation = true;
+            return;
+        } else {
+            var transitionHash = possibleTransitions.isEmpty() ? blankTransitions : possibleTransitions;
+            gotoState = transitionHash.keySet().iterator().next();
+            ti = transitionHash.get(gotoState).getFirst();
+        }
+
+        this.handleTransition(currentState, gotoState, ti);
+
+    }
+
+    private void handleTransition(String initialState, String gotoState, TransitionInfo ti) {
+        if (!initialState.equals(gotoState)) {
+            currentState = gotoState;
+            var ind = turingMachine.states.indexOf(currentState);
+            statesTable.setRowSelectionInterval(ind, ind);
+        }
+        if (!ti.consumeCharacter.equals(TransitionManagerPanel.BLANK_CHARACTER)) {
+            currentStep += 1;
+        }
+        characterSlider.setValue(currentStep);
+        if (ti.stackOp != StackOperation.NOP) {
+            ((DefaultTableModel) operationsTable.getModel()).addRow(new Object[]{ti.consumeCharacter, ti.stackOp.name() + " " + ti.stackOpArg});
+            if (ti.stackOp == StackOperation.POP) {
+                ((DefaultTableModel) stackTable.getModel()).removeRow(0);
+            } else {
+                ((DefaultTableModel) stackTable.getModel()).insertRow(0, new Object[]{ti.stackOpArg});
+            }
+        }
+    }
+
 }

@@ -5,7 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="544e2bb1-d1bc-4f22-ac2f-da764622c777" name="Changes" comment="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_core.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_core_annotations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_core_databind.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_dataformat_yaml.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/formdev_flatlaf.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/formdev_flatlaf_extras.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/formdev_flatlaf_fonts_roboto.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/graphper_graph_support.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/javatuples.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/miglayout_core.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/miglayout_swing.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/flatlaf-3.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/flatlaf-3.5.4.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/flatlaf-extras-3.5.4.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/flatlaf-fonts-roboto-2.137.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javatuples-1.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jsvg-1.4.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/miglayout-core-11.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/miglayout-swing-11.4.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DecidableTuringMachine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/FlatLaf.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PDASetupBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/StackOperation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/TransitionInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDASimulator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PDASimulator.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/nblibraries.properties" beforeDir="false" afterPath="$PROJECT_DIR$/lib/nblibraries.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PDASimulator.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PDASimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +44,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -31,18 +61,21 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "i-am-zaidali"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;i-am-zaidali&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/i-am-zaidali/PDASimulator&quot;,
     &quot;accountId&quot;: &quot;9e9fc6b3-8c23-4274-8d00-61642ee6bad7&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/com/formdev/flatlaf/3.5.4/flatlaf-3.5.4-sources.jar!/com/formdev/flatlaf/icons/FlatCheckBoxIcon.java" root0="SKIP_INSPECTION" />
+  </component>
   <component name="OptimizeOnSaveOptions">
     <option name="myRunOnSave" value="true" />
   </component>
@@ -55,34 +88,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.FloatSlider.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PDASimulator.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/zimp/IdeaProjects/DSAPractice&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AlphabetPanel.executor": "Run",
+    "Application.FloatSlider.executor": "Run",
+    "Application.PDASetup.executor": "Run",
+    "Application.PDASimulator.executor": "Run",
+    "Application.StateManagerFrame.executor": "Run",
+    "Application.StateManagerPanel.executor": "Run",
+    "Application.TransitionManagerPanel.executor": "Run",
+    "Application.alphabetPanel.executor": "Run",
+    "Application.test.executor": "Debug",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "true",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "code.cleanup.on.save": "true",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/zimp/IdeaProjects/AutoComplete/src/AutoCompleteGUI.java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "discord-application",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.24807.4" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.24807.4" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
       </set>
     </attachedChunks>
   </component>
@@ -103,6 +149,19 @@
       <workItem from="1733739670838" duration="157000" />
       <workItem from="1733850922027" duration="928000" />
       <workItem from="1733897858838" duration="909000" />
+      <workItem from="1734017970875" duration="2000" />
+      <workItem from="1734370737761" duration="5517000" />
+      <workItem from="1734415214021" duration="12775000" />
+      <workItem from="1734437682796" duration="5956000" />
+      <workItem from="1734446794900" duration="12600000" />
+      <workItem from="1734501095469" duration="7807000" />
+      <workItem from="1734509974226" duration="3960000" />
+      <workItem from="1734516560433" duration="758000" />
+      <workItem from="1734530478453" duration="11659000" />
+      <workItem from="1734584420820" duration="34579000" />
+      <workItem from="1734633193224" duration="259000" />
+      <workItem from="1734633510215" duration="6010000" />
+      <workItem from="1734688018481" duration="5745000" />
     </task>
     <task id="LOCAL-00001" summary="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}">
       <option name="closed" value="true" />
@@ -132,6 +191,17 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}" />
     <option name="LAST_COMMIT_MESSAGE" value="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test.java</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
