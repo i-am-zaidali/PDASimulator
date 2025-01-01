@@ -5,36 +5,58 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="544e2bb1-d1bc-4f22-ac2f-da764622c777" name="Changes" comment="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_core.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_core_annotations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_core_databind.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/fasterxml_jackson_dataformat_yaml.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/formdev_flatlaf.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/formdev_flatlaf_extras.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/formdev_flatlaf_fonts_roboto.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/graphper_graph_support.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/javatuples.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/miglayout_core.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/miglayout_swing.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/flatlaf-3.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/flatlaf-3.5.4.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/flatlaf-extras-3.5.4.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/flatlaf-fonts-roboto-2.137.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/javatuples-1.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/jsvg-1.4.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/miglayout-core-11.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/miglayout-swing-11.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DecidableTuringMachine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/FlatLaf.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PDASetupBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StackOperation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TransitionInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/apache_xmlgraphics_batik_all.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/guru_nidi_graphviz_java.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/batik-all-1.18.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons-exec-1.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons-io-2.11.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons-logging-1.0.4.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/graphviz-java-0.18.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/j2v8_linux_x86_64-4.6.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/j2v8_macosx_x86_64-4.6.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/j2v8_win32_x86-4.6.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/j2v8_win32_x86_64-4.6.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jackson-annotations-2.18.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jackson-core-2.18.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jackson-databind-2.18.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jackson-dataformat-yaml-2.18.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jcl-over-slf4j-1.7.30.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jsr305-3.0.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jul-to-slf4j-1.7.30.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/nashorn-promise-0.1.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/slf4j-api-1.7.30.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/snakeyaml-2.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/svgSalamander-1.1.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/viz.js-graphviz-java-2.1.3.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/xml-apis-1.4.01.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/xml-apis-ext-1.3.04.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/xmlgraphics-commons-2.10.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PDASimulator/DiagramGenerator/DiagramGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PDASimulator/InputProcessingState/InputProcessingState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PDASimulator/SVGTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/graphper_graph_support.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PDASimulator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PDASimulator.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/nblibraries.properties" beforeDir="false" afterPath="$PROJECT_DIR$/lib/nblibraries.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/genfiles.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/genfiles.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PDASimulator.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PDASimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AlphabetPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/AlphabetPanel/AlphabetPanel.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AlphabetPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/AlphabetPanel/AlphabetPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DecidableTuringMachine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/DecidableTuringMachine/DecidableTuringMachine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MultiSelectComboBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/MultiSelectComboBox/MultiSelectComboBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PDASetup.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/PDASetup.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PDASetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/PDASetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PDASetupBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/PDASetupBase/PDASetupBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PDASimulator.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASimulator.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PDASimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StackOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/StackOperation/StackOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StateManagerPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/StateManagerPanel/StateManagerPanel.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StateManagerPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/StateManagerPanel/StateManagerPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TransitionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/TransitionInfo/TransitionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TransitionManagerPanel.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/TransitionManagerPanel/TransitionManagerPanel.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TransitionManagerPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PDASimulator/PDASetup/TransitionManagerPanel/TransitionManagerPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +66,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -88,42 +110,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.AlphabetPanel.executor": "Run",
-    "Application.FloatSlider.executor": "Run",
-    "Application.PDASetup.executor": "Run",
-    "Application.PDASimulator.executor": "Run",
-    "Application.StateManagerFrame.executor": "Run",
-    "Application.StateManagerPanel.executor": "Run",
-    "Application.TransitionManagerPanel.executor": "Run",
-    "Application.alphabetPanel.executor": "Run",
-    "Application.test.executor": "Debug",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "true",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "code.cleanup.on.save": "true",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/zimp/IdeaProjects/AutoComplete/src/AutoCompleteGUI.java",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "discord-application",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.AlphabetPanel.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DiagramGenerator.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.FloatSlider.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PDASetup.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PDASimulator.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SVGTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StateManagerFrame.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StateManagerPanel.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TransitionManagerPanel.executor&quot;: &quot;Run&quot;,
+    &quot;Application.alphabetPanel.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.executor&quot;: &quot;Debug&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/zimp/IdeaProjects/PDASimulator&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;discord-application&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/PDASimulator" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="PDASimulator" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -161,7 +193,16 @@
       <workItem from="1734584420820" duration="34579000" />
       <workItem from="1734633193224" duration="259000" />
       <workItem from="1734633510215" duration="6010000" />
-      <workItem from="1734688018481" duration="5745000" />
+      <workItem from="1734688018481" duration="36981000" />
+      <workItem from="1734764597449" duration="18169000" />
+      <workItem from="1734872892245" duration="22316000" />
+      <workItem from="1734899980581" duration="8763000" />
+      <workItem from="1734940782491" duration="20044000" />
+      <workItem from="1735217619966" duration="2901000" />
+      <workItem from="1735315243358" duration="2508000" />
+      <workItem from="1735479288544" duration="93000" />
+      <workItem from="1735727103507" duration="8795000" />
+      <workItem from="1735765199486" duration="855000" />
     </task>
     <task id="LOCAL-00001" summary="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}">
       <option name="closed" value="true" />
@@ -191,17 +232,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}" />
     <option name="LAST_COMMIT_MESSAGE" value="PDASimulator for the language L = {a^i b^j c^k | i,j,k &gt; 0 &amp; k = i + j}" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test.java</url>
-          <line>2</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

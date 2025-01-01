@@ -5,6 +5,7 @@
             <name>PDASimulator</name>
             <source-roots>
                 <root id="src.src.dir" name="src"/>
+                <root id="src.src2.dir" name="src"/>
             </source-roots>
             <test-roots/>
         </data>
